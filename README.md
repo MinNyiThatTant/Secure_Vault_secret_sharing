@@ -20,3 +20,9 @@ npm run dev
 
 ## browser
 http://localhost:5000
+
+
+## License
+
+This project is developed for educational and research purposes only.
+All Rights Reserved.
