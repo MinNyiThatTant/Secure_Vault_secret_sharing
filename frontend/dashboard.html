@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">ZK Vault</div>
+        <div class="nav-user">
+            <span id="username"></span>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </nav>
+    
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <button class="nav-btn active" onclick="showSection('split')">Split Secret</button>
+            <button class="nav-btn" onclick="showSection('combine')">Combine Shares</button>
+            <button class="nav-btn" onclick="showSection('chat')">Secure Chat</button>
+            <button class="nav-btn" onclick="showSection('my-shares')">My Shares</button>
+        </div>
+        
+        <div class="main-content">
+            <!-- Split Secret Section -->
+            <div id="split-section" class="section active">
+                <h2>Split a Secret (Shamir's SSS)</h2>
+                <div class="card">
+                    <label>Secret Message / Key:</label>
+                    <textarea id="secret-input" rows="3" placeholder="Enter your secret (password, crypto key, etc.)"></textarea>
+                    
+                    <label>Threshold (k):</label>
+                    <input type="number" id="threshold" value="3" min="2" max="10">
+                    
+                    <label>Total Shares (n):</label>
+                    <input type="number" id="total-shares" value="5" min="2" max="10">
+                    
+                    <label>Share Holders (Email addresses, one per line):</label>
+                    <textarea id="holders" rows="3" placeholder="friend1@example.com&#10;friend2@example.com&#10;yourself@example.com"></textarea>
+                    
+                    <button onclick="splitAndSaveSecret()">Generate & Save Shares</button>
+                </div>
+                <div id="split-result" class="result-area"></div>
+            </div>
+            
+            <!-- Combine Shares Section -->
+            <div id="combine-section" class="section">
+                <h2>Combine Shares to Recover Secret</h2>
+                <div class="card">
+                    <label>Vault ID:</label>
+                    <input type="text" id="vault-id" placeholder="Enter Vault ID to recover">
+                    <button onclick="fetchVaultShares()">Load My Vault</button>
+                </div>
+                <div id="combine-result" class="result-area"></div>
+            </div>
+            
+            <!-- Secure Chat Section (OTR) -->
+            <div id="chat-section" class="section">
+                <h2>End-to-End Encrypted Chat (ECDH + AES-GCM)</h2>
+                <div class="card">
+                    <label>Room ID:</label>
+                    <input type="text" id="room-id" placeholder="Enter or create room ID">
+                    <button onclick="initChat()">Join Room</button>
+                </div>
+                <div id="chat-container" style="display:none; margin-top:20px;">
+                    <div id="chat-messages" style="height:300px; overflow-y:auto; border:1px solid #ddd; padding:10px;"></div>
+                    <div style="display:flex; margin-top:10px;">
+                        <input type="text" id="chat-input" placeholder="Type your message..." style="flex:1; padding:10px;">
+                        <button onclick="sendChatMessage()">Send (Encrypted)</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- My Shares Section -->
+            <div id="my-shares-section" class="section">
+                <h2>Shares Assigned to Me</h2>
+                <div id="my-shares-list" class="card"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/js/api.js"></script>
+    <script src="/js/shamir.js"></script>
+    <script src="/js/otr.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>
