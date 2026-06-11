@@ -2,6 +2,7 @@
 
 > A cryptographic secret sharing system built with Node.js, Express, and MongoDB, implementing Shamir's Secret Sharing (SSS) algorithm for secure key distribution and reconstruction.
 
+## install dependencies
 
 ```bash
 npm init -y
