@@ -1,3 +1,9 @@
+# Secure Vault Secret Sharing System
+
+> A cryptographic secret sharing system built with Node.js, Express, and MongoDB, implementing Shamir's Secret Sharing (SSS) algorithm for secure key distribution and reconstruction.
+
+## install dependencies
+
 ```bash
 npm init -y
 npm install express mongoose cors dotenv socket.io bcryptjs jsonwebtoken
@@ -20,3 +26,9 @@ npm run dev
 
 ## browser
 http://localhost:5000
+
+
+## License
+
+This project is developed for educational and research purposes only.
+All Rights Reserved.
