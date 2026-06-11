@@ -2,6 +2,27 @@
 
 > A cryptographic secret sharing system built with Node.js, Express, and MongoDB, implementing Shamir's Secret Sharing (SSS) algorithm for secure key distribution and reconstruction.
 
+
+## System Screenshots
+
+### register
+![register](screenshots/register.PNG)
+
+### login
+![login](screenshots/login.PNG)
+
+### split_secret
+![split_secret](screenshots/split_secret.PNG)
+
+### my_share
+![my_share](screenshots/my_share.PNG)
+
+### room_id to join/chat
+![room_id](screenshots/room_id.PNG)
+
+### message_encrypted
+![message_encrypted](screenshots/message_encrypted.PNG)
+
 ## install dependencies
 
 ```bash
