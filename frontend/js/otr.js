@@ -1,10 +1,6 @@
 /**
- * OTR (Off-the-Record) Chat Implementation
- * 
- * Why ECDH + AES-GCM?
  * - ECDH: Perfect Forward Secrecy (each session uses new keys)
  * - AES-GCM: Authenticated encryption (can't tamper without detection)
- * - Hardware accelerated on modern CPUs
  */
 
 class OTRSession {
@@ -73,7 +69,7 @@ class OTRSession {
         
         await this.deriveSharedSecret();
         this.isReady = true;
-        console.log('🔐 Secure channel established');
+        console.log('Secure channel established');
     }
     
     async deriveSharedSecret() {
@@ -166,7 +162,7 @@ class OTRSession {
         if (isSent) {
             messageDiv.textContent = `You: [Encrypted message sent]`;
         } else if (data.type === 'key-exchange') {
-            messageDiv.textContent = `🔐 Peer joined! Secure channel established.`;
+            messageDiv.textContent = `Peer joined! Secure channel established.`;
         } else {
             messageDiv.textContent = `Peer: [Encrypted message]`;
         }

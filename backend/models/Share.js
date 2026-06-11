@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// Zero-Knowledge Design: Server stores ONLY encrypted shares
 // Server has NO decryption keys. Even if database leaked, data is safe.
 const ShareSchema = new mongoose.Schema({
   vaultId: {

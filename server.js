@@ -120,14 +120,14 @@ app.get('/api/auth/me', authMiddleware, async (req, res) => {
 // ============ Share Routes ============
 app.post('/api/shares/vault', authMiddleware, async (req, res) => {
   try {
-    console.log('📦 Received create vault request');
-    console.log('   User:', req.user?.email);
-    console.log('   Body:', req.body);
+    console.log('Received create vault request');
+    console.log('User:', req.user?.email);
+    console.log('Body:', req.body);
     
     const { vaultId, shares: shareData } = req.body;
     
     if (!vaultId || !shareData || !shareData.length) {
-      console.log('❌ Invalid request: missing vaultId or shares');
+      console.log('Invalid request: missing vaultId or shares');
       return res.status(400).json({ error: 'Missing vaultId or shares' });
     }
     
@@ -145,13 +145,13 @@ app.post('/api/shares/vault', authMiddleware, async (req, res) => {
       });
       await newShare.save();
       savedShares.push(newShare);
-      console.log(`   ✅ Saved share for ${share.holderEmail}`);
+      console.log(` Saved share for ${share.holderEmail}`);
     }
     
-    console.log(`✅ Vault created with ${savedShares.length} shares`);
+    console.log(`Vault created with ${savedShares.length} shares`);
     res.status(201).json({ message: 'Vault created', vaultId, shareCount: savedShares.length });
   } catch (error) {
-    console.error('❌ Error creating vault:', error);
+    console.error('Error creating vault:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -161,11 +161,11 @@ app.get('/api/shares/my-shares', authMiddleware, async (req, res) => {
     console.log('========== DEBUG ==========');
     console.log('User email from token:', req.user.email);
     
-    // အကုန်ပြပါ - ဘယ် filter မှမပါဘူး
+    // show all
     const allShares = await Share.find({});
     console.log('All shares in DB:', allShares.map(s => ({ holderEmail: s.holderEmail, status: s.status })));
     
-    // User အတွက် filter လုပ်ပါ
+    // filter for user
     const myShares = await Share.find({ 
       holderEmail: req.user.email 
     });
@@ -216,7 +216,7 @@ io.on('connection', (socket) => {
   
   socket.on('join-room', (roomId) => {
     socket.join(roomId);
-    console.log(`📢 ${socket.id} joined room: ${roomId}`);
+    console.log(`${socket.id} joined room: ${roomId}`);
   });
   
   socket.on('send-message', (data) => {
@@ -237,41 +237,26 @@ const PORT = process.env.PORT || 5000;
 
 mongoose.connect(MONGODB_URI)
   .then(() => {
-    console.log('✅ MongoDB Connected Successfully!');
-    console.log(`📚 Database: ${MONGODB_URI}`);
+    console.log('MongoDB Connected Successfully!');
+    console.log(`Database: ${MONGODB_URI}`);
     
     server.listen(PORT, () => {
       console.log(`
-╔══════════════════════════════════════════════════════════════╗
-║                                                              ║
-║   🚀 ZK VAULT SERVER RUNNING                                 ║
-║                                                              ║
-║   📡 HTTP: http://localhost:${PORT}                           ║
-║   🗄️  MongoDB: Connected                                     ║
-║   🔐 JWT Auth: Enabled                                       ║
-║   💬 WebSocket: Ready                                        ║
-║                                                              ║
-║   📝 Test Accounts:                                          ║
-║      Register any email/password                            ║
-║                                                              ║
-╚══════════════════════════════════════════════════════════════╝
+        SERVER RUNNING
+        HTTP: http://localhost:${PORT}                         
+        MongoDB: Connected                                     
+        JWT Auth: Enabled                                     
+        WebSocket: Ready                                        
+        Test Accounts:                                        
+        Register any email/password  
       `);
     });
   })
   .catch(err => {
-    console.error('❌ MongoDB Connection Error:', err.message);
+    console.error('MongoDB Connection Error:', err.message);
     console.log(`
-╔══════════════════════════════════════════════════════════════╗
-║                      ⚠️  TROUBLESHOOTING                      ║
-║                                                              ║
-║  Make sure MongoDB is running:                              ║
-║                                                              ║
-║  Terminal 1 (MongoDB):                                      ║
-║  > "C:\\Program Files\\MongoDB\\Server\\6.0\\bin\\mongod.exe" --dbpath C:\\data\\db
-║                                                              ║
-║  Then restart this server.                                  ║
-║                                                              ║
-╚══════════════════════════════════════════════════════════════╝
+      Make sure MongoDB is running:                            
+      Then restart this server. 
     `);
     process.exit(1);
   });

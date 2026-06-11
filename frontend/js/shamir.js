@@ -1,11 +1,10 @@
 /**
  * Shamir's Secret Sharing (SSS) - Pure JavaScript Implementation
  * 
- * Why this algorithm?
  * - Information-theoretic security (perfect secrecy)
  * - Threshold property: Any k shares work, k-1 shares give ZERO info
  * - No single point of failure
- * - Mathematically proven (Lagrange interpolation)
+ * - Mathematically proven 
  */
 
 class ShamirSSS {
@@ -148,17 +147,17 @@ class ShamirSSS {
     
     /**
      * Encrypt a share for storage (using simple XOR with derived key)
-     * In production, use AES-GCM. This is simplified for demo.
+     * This is simplified for demo.
      */
     static async encryptShare(share, password) {
         const encoder = new TextEncoder();
         const shareStr = JSON.stringify(share);
         const shareBytes = encoder.encode(shareStr);
         
-        // Simple key derivation (in production use PBKDF2)
+        // Simple key derivation (later to use PBKDF2)
         const keyBytes = encoder.encode(password.padEnd(32, '0').slice(0, 32));
         
-        // XOR encryption (for demo only - use AES in production)
+        // XOR encryption for demo (use AES later)
         const encrypted = new Uint8Array(shareBytes.length);
         for (let i = 0; i < shareBytes.length; i++) {
             encrypted[i] = shareBytes[i] ^ keyBytes[i % keyBytes.length];

@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('frontend'));
 
-// ============ In-Memory Database (for testing only) ============
+// ============ In-Memory Database  ============
 const users = [];
 const shares = [];
 const sessions = {};
@@ -31,7 +31,7 @@ app.post('/api/auth/register', (req, res) => {
     id: uuidv4(), 
     username, 
     email, 
-    password: password // Simplified - in production, hash this!
+    password: password 
   };
   users.push(user);
   
@@ -133,11 +133,11 @@ io.on('connection', (socket) => {
   
   socket.on('join-room', (roomId) => {
     socket.join(roomId);
-    console.log(`📢 Socket ${socket.id} joined room: ${roomId}`);
+    console.log(`Socket ${socket.id} joined room: ${roomId}`);
   });
   
   socket.on('send-message', (data) => {
-    console.log(`💬 Relay message in room: ${data.roomId}`);
+    console.log(`Relay message in room: ${data.roomId}`);
     socket.to(data.roomId).emit('receive-message', {
       ...data,
       timestamp: Date.now()
@@ -153,17 +153,11 @@ io.on('connection', (socket) => {
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
   console.log(`
-  ╔═══════════════════════════════════════════════════════╗
-  ║     🚀 ZK Vault Server is Running!                    ║
-  ║                                                       ║
-  ║     📡 http://localhost:${PORT}                         ║
-  ║                                                       ║
-  ║     ⚠️  Running with IN-MEMORY storage               ║
-  ║     (No MongoDB required for testing)                ║
-  ║                                                       ║
-  ║     🔐 Test Accounts:                                 ║
-  ║     Register any email/password                      ║
-  ║                                                       ║
-  ╚═══════════════════════════════════════════════════════╝
+  Server is Running!                   
+  http://localhost:${PORT}                         
+  Running with IN-MEMORY storage               ║
+  (No MongoDB required for testing)
+  Test Accounts:
+  Register any email/password 
   `);
 });

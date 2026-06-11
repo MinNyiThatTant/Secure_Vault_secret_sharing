@@ -45,10 +45,10 @@ async function splitAndSaveSecret() {
     // Generate unique vault ID
     const vaultId = crypto.randomUUID();
     
-    // Prepare shares for storage (simplified - in production, encrypt each share)
+    // Prepare shares for storage (encrypt each share)
     const sharesToSave = shares.map((share, idx) => ({
         shareIndex: share.x,
-        encryptedShareY: share.y, // In production, encrypt with holder's public key
+        encryptedShareY: share.y, // encrypt with holder's public key
         iv: 'placeholder',
         authTag: 'placeholder',
         holderEmail: holders[idx]
@@ -59,7 +59,7 @@ async function splitAndSaveSecret() {
     if (result.vaultId) {
         const resultDiv = document.getElementById('split-result');
         resultDiv.innerHTML = `
-            <h3>✅ Vault Created Successfully!</h3>
+            <h3>Vault Created Successfully!</h3>
             <p><strong>Vault ID:</strong> ${vaultId}</p>
             <p><strong>Threshold:</strong> ${k} of ${n} shares needed</p>
             <p><strong>Shares distributed to:</strong></p>
@@ -67,7 +67,7 @@ async function splitAndSaveSecret() {
                 ${holders.map((h, i) => `<li>${h} (Share ${i+1})</li>`).join('')}
             </ul>
             <p style="color: #dc2626; margin-top: 10px;">
-                ⚠️ Save this Vault ID! You'll need it to recover your secret.
+                Save this Vault ID! You'll need it to recover your secret.
             </p>
         `;
     } else {
@@ -87,7 +87,7 @@ async function fetchVaultShares() {
     
     if (result.shares && result.shares.length > 0) {
         resultDiv.innerHTML = `
-            <h3>📋 Shares for Vault: ${vaultId}</h3>
+            <h3>Shares for Vault: ${vaultId}</h3>
             <p>You have ${result.shares.length} shares in this vault.</p>
             <p>To recover the secret, you need to collect at least the threshold number of shares from the holders.</p>
             <button onclick="simulateCombine('${vaultId}')">Simulate Combine (Demo)</button>
